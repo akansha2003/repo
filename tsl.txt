@@ -58,3 +58,5 @@ terraform {
   }
 }
 
+-------
+aws dynamodb scan --table-name akki-tf-lock-table --region ap-south-1
