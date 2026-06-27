@@ -15,8 +15,15 @@ resource "aws_vpc" "lab_vpc" {
 
 backend/s3.tf
 
+cd backend
+nano s3.tf
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
 resource "aws_s3_bucket" "state" {
-  bucket        = "aish-tf-state-bucket"
+  bucket        = "akki-tf-state-bucket"
   force_destroy = true
 }
 
@@ -28,7 +35,7 @@ resource "aws_s3_bucket_versioning" "state" {
 }
 
 resource "aws_dynamodb_table" "lock" {
-  name         = "aish-tf-lock-table"
+  name         = "akki-tf-lock-table"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
 
@@ -37,7 +44,7 @@ resource "aws_dynamodb_table" "lock" {
     type = "S"
   }
 }
-
+  
 
 backend.tf
 
@@ -50,3 +57,4 @@ terraform {
     encrypt        = true
   }
 }
+
