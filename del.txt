@@ -1,0 +1,26 @@
+terraform destroy --auto-approve
+
+aws dynamodb scan --table-name akki-tf-lock-table --region ap-south-1
+
+
+aws s3api delete-objects \
+--bucket akki-tf-state-bucket \
+--delete "$(aws s3api list-object-versions \
+--bucket akki-tf-state-bucket \
+--output=json \
+--query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
+________________________________________
+
+aws s3api delete-objects \
+--bucket akki-tf-state-bucket \
+--delete "$(aws s3api list-object-versions \
+--bucket akki-tf-state-bucket \
+--output=json \
+--query='{Objects: DeleteMarkers[].{Key:Key,VersionId:VersionId}}')"
+
+
+aws s3api list-object-versions --bucket akki-tf-state-bucket
+
+aws s3 rb s3://akki-tf-state-bucket
+
+aws dynamodb delete-table --table-name akki-tf-lock-table --region ap-south-1
